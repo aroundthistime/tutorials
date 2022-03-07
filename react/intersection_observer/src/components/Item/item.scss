@@ -1,0 +1,14 @@
+$item-size: 5rem;
+
+.item {
+  width: $item-size;
+  height: $item-size;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  background-color: coral;
+  &:not(:last-child) {
+    margin-bottom: 3rem;
+  }
+}
