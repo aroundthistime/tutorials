@@ -1,7 +1,8 @@
 /* eslint-disable import/prefer-default-export */
 import {useEffect, useState} from 'react';
 import {ItemType} from '../../@types/ItemType';
-import {range} from '../../utils/math';
+import useInterSectionObserver from '../../hooks/useIntersectionObserver';
+import {range} from '../../utils/array';
 
 type ReturnType = {
   loading: boolean;
@@ -11,10 +12,29 @@ type ReturnType = {
 export const useItems = (): ReturnType => {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState<ItemType[]>([]);
+  const [observer, setElements, entries] = useInterSectionObserver();
 
   useEffect(() => {
     getItems();
   }, []);
+
+  useEffect(() => {
+    if (items.length > 0) {
+      const itemElements = document.querySelectorAll('.item');
+      const lastItemElement = itemElements[itemElements.length - 1];
+      setElements([lastItemElement]);
+    }
+  }, [items, setElements]);
+
+  useEffect(() => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const item = entry.target;
+        observer?.unobserve(item);
+        getItems();
+      }
+    });
+  }, [entries, observer]);
 
   const getItems = async () => {
     setLoading(true);
@@ -31,7 +51,7 @@ export const useItems = (): ReturnType => {
         return prev.concat(newItems);
       });
       setLoading(false);
-    });
+    }, 2000);
   };
 
   return {
