@@ -1,5 +1,5 @@
 import React from 'react';
-import {ItemType} from '../../@types/ItemType';
+import {ItemType} from '../../../@types/ItemType';
 import './item.scss';
 
 type Props = {

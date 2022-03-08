@@ -1,15 +1,15 @@
 /* eslint-disable import/prefer-default-export */
 import {useEffect, useState} from 'react';
-import {ItemType} from '../../@types/ItemType';
-import useInterSectionObserver from '../../hooks/useIntersectionObserver';
-import {range} from '../../utils/array';
+import {ItemType} from '../../../@types/ItemType';
+import useInterSectionObserver from '../../../hooks/useIntersectionObserver';
+import {range} from '../../../utils/array';
 
 type ReturnType = {
   loading: boolean;
   items: ItemType[];
 };
 
-export const useItems = (): ReturnType => {
+export const useItemsPage = (): ReturnType => {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState<ItemType[]>([]);
   const [observer, setElements, entries] = useInterSectionObserver();

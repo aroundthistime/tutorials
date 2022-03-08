@@ -1,11 +1,16 @@
 import React from 'react';
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import './App.css';
-import Items from './components/Items/Items';
+import ItemsPage from './components/pages/Items/ItemsPage';
 
 function App() {
   return (
     <div className="app">
-      <Items />
+      <Router>
+        <Routes>
+          <Route path="/" element={<ItemsPage />} />
+        </Routes>
+      </Router>
     </div>
   );
 }

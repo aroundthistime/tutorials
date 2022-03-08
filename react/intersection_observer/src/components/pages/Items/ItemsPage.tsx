@@ -1,11 +1,11 @@
 import React from 'react';
-import Item from '../Item/Item';
-import Loader from '../Loader/Loader';
-import './items.scss';
-import {useItems} from './useItems';
+import Item from '../../partials/Item/Item';
+import Loader from '../../partials/Loader/Loader';
+import './itemsPage.scss';
+import {useItemsPage} from './useItemsPage';
 
 function Items() {
-  const {loading, items} = useItems();
+  const {loading, items} = useItemsPage();
   return (
     <ul className="items">
       {items.map(item => {
