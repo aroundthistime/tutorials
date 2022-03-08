@@ -24,6 +24,7 @@ module.exports = {
         endOfLine: 'auto',
       },
     ],
+    'react/require-default-props': 'off',
     'no-use-before-define': 'off',
     'import/extensions': [
       'error',

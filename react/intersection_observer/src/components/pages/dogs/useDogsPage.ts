@@ -13,22 +13,38 @@ type ReturnType = {
 
 export const useDogsPage = (): ReturnType => {
   const [observer, setElements, entries] = useInterSectionObserver();
-  const {data, isLoading, isFetching, hasNextPage, fetchNextPage} =
+  const {data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage} =
     useDogsQuery();
 
   useEffect(() => {
     if (data) {
-      const dogsElements = Array.from(document.querySelectorAll('.dog'));
+      const dogsElements = Array.from(document.querySelectorAll('.lazy-image'));
       setElements(dogsElements);
     }
   }, [data, setElements]);
 
+  const loadLazyImage = (imageElement: HTMLImageElement) => {
+    if (imageElement.dataset.src) {
+      // eslint-disable-next-line no-param-reassign
+      imageElement.src = imageElement.dataset.src;
+    }
+    imageElement.classList.remove('lazy-image');
+  };
+
   useEffect(() => {
     entries.forEach((entry, index) => {
       if (entry.isIntersecting) {
-        const item = entry.target;
-        observer?.unobserve(item);
-        if (entries.length - 1 === index && hasNextPage) {
+        const targetElement = entry.target;
+        if (targetElement.tagName === 'IMG') {
+          loadLazyImage(targetElement as HTMLImageElement);
+        }
+        observer?.unobserve(targetElement);
+        // console.log(entries.length, index, hasNextPage);
+        if (
+          entries.length - 1 === index &&
+          hasNextPage &&
+          !isFetchingNextPage
+        ) {
           fetchNextPage();
         }
       }
@@ -37,20 +53,15 @@ export const useDogsPage = (): ReturnType => {
 
   const dogs = useMemo(() => {
     return data?.pages
-      .filter((group: string[] | undefined): group is string[] => {
+      .filter((group: DogType[] | undefined): group is DogType[] => {
         return group !== undefined;
       })
-      .flat()
-      .map(imageUrl => {
-        return {
-          image: imageUrl,
-        };
-      });
+      .flat();
   }, [data]);
 
   return {
     dogs,
     isLoading,
-    isFetchingMore: isFetching,
+    isFetchingMore: isFetchingNextPage,
   };
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import {DogType} from '../../../@types/DogType';
+import LazyImage from '../LazyImage/LazyImage';
 import './dog.scss';
 
 type Props = {
@@ -8,10 +9,10 @@ type Props = {
 
 function Dog({dog}: Props) {
   return (
-    <div className="dog">
-      <img alt={dog.image} className="dog__image" />
+    <div className="dog" data-id={`${dog.id}`}>
+      <LazyImage className="dog__image" src={dog.image} alt={dog.image} />
     </div>
   );
 }
 
-export default Dog;
+export default React.memo(Dog);
