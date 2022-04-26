@@ -1,0 +1,9 @@
+.Header {
+  background-color: lightsteelblue;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  width: 300px;
+}

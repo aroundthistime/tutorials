@@ -1,0 +1,16 @@
+.Logo {
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+}
+
+.logo-image {
+  width: 20px;
+  aspect-ratio: 1 / 1;
+}
+
+.text {
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+}
